@@ -1,5 +1,6 @@
 package com.ucne.parcial2.ui.tickets
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,7 +23,8 @@ import com.ucne.parcial2.data.remote.dto.TicketsDto
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TicketsListScreen(onNewTicket: () -> Unit, viewModel: TicketsViewModel = hiltViewModel()) {
+fun TicketsListScreen( onNewTicket: () -> Unit,
+                      viewModel: TicketsViewModel = hiltViewModel(),onTicketClick: (Int) -> Unit) {
     Scaffold(
         modifier = Modifier.fillMaxWidth(),
         topBar = {
@@ -43,17 +45,21 @@ fun TicketsListScreen(onNewTicket: () -> Unit, viewModel: TicketsViewModel = hil
         Box(modifier = Modifier
             .fillMaxSize()
             .padding(it)) {
-            TicketListBody(uiState.tickets)
+            TicketListBody(uiState.tickets){
+                onTicketClick(it)
+            }
         }
     }
 }
 
 @Composable
-fun TicketListBody(ticketList: List<TicketsDto>) {
+fun TicketListBody(ticketList: List<TicketsDto>, onTicketClick: (Int) -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
         LazyColumn {
             items(ticketList) { ticket ->
-                TicketRow(ticket)
+                TicketRow(ticket){
+                    onTicketClick(it)
+                }
             }
         }
     }
@@ -61,7 +67,7 @@ fun TicketListBody(ticketList: List<TicketsDto>) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TicketRow(ticket: TicketsDto/*, navController: NavController*/) {
+fun TicketRow(ticket: TicketsDto, onTicketClick: (Int) -> Unit) {
 
     Column(
         Modifier
@@ -72,6 +78,7 @@ fun TicketRow(ticket: TicketsDto/*, navController: NavController*/) {
        // val drawerState = rememberDrawerState(DrawerValue.Closed )
         Column(
             modifier = Modifier
+                .clickable(onClick = {onTicketClick(ticket.ticketId)})
                 .fillMaxWidth()
         ) {
             Row() {
@@ -83,7 +90,7 @@ fun TicketRow(ticket: TicketsDto/*, navController: NavController*/) {
                     modifier = Modifier.weight(3f)
                 )
                 Text(
-                    text = ticket.fecha,
+                    text = ticket.fecha.substring(0,10),
                     style = MaterialTheme.typography.titleSmall,
                     fontStyle = FontStyle.Italic,
                     fontWeight = FontWeight.Bold,

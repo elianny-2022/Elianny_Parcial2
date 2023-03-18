@@ -14,21 +14,24 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun TicketScreen(ticketId:Int, viewModel: TicketsViewModel = hiltViewModel()) {
+fun TicketScreen(ticketId:Int, viewModel: TicketsViewModel = hiltViewModel(), onSaveClick: () -> Unit) {
     remember {
         viewModel.ticketId = ticketId
         0
     }
     Column(Modifier.fillMaxWidth()) {
         //val uiState by viewModel.uiState.collectAsState()
-        TicketBody(viewModel = viewModel)
+        TicketBody(viewModel = viewModel){
+            onSaveClick()
+        }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TicketBody(
-    viewModel: TicketsViewModel
+    viewModel: TicketsViewModel,
+    onSaveClick: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -100,5 +103,6 @@ private fun TicketBody(
             .fillMaxWidth(),
         text = { Text("Guardar") },
         icon = { Icon(imageVector = Icons.Filled.Save, contentDescription = "Save") },
-        onClick = { viewModel.putTicket() })
+        onClick = { viewModel.putTicket()
+        onSaveClick()})
 }

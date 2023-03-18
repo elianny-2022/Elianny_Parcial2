@@ -80,6 +80,7 @@ class TicketsViewModel @Inject constructor(
     }
     fun setTicket(id:Int){
         ticketId = id
+        Limpiar()
         ticketRepository.getTicketsbyId(ticketId).onEach { result ->
             when (result) {
                 is Resource.Loading -> {
@@ -89,6 +90,10 @@ class TicketsViewModel @Inject constructor(
                     uiStateTicket.update {
                         it.copy(ticket = result.data )
                     }
+                    empresa = uiStateTicket.value.ticket!!.empresa
+                    asunto = uiStateTicket.value.ticket!!.asunto
+                    estatus = uiStateTicket.value.ticket!!.asunto
+                    especificaciones = uiStateTicket.value.ticket!!.especificaciones
                 }
                 is Resource.Error -> {
                     uiStateTicket.update { it.copy(error = result.message ?: "Error desconocido") }
@@ -106,7 +111,7 @@ class TicketsViewModel @Inject constructor(
                 uiStateTicket.value.ticket!!.orden,
                 ticketId = ticketId ))
         }
-        Limpiar()
+
     }
     init {
         ticketRepository.getTickets().onEach { result ->

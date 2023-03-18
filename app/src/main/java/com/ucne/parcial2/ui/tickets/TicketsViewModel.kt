@@ -92,7 +92,7 @@ class TicketsViewModel @Inject constructor(
                     }
                     empresa = uiStateTicket.value.ticket!!.empresa
                     asunto = uiStateTicket.value.ticket!!.asunto
-                    estatus = uiStateTicket.value.ticket!!.asunto
+                    estatus = uiStateTicket.value.ticket!!.estatus
                     especificaciones = uiStateTicket.value.ticket!!.especificaciones
                 }
                 is Resource.Error -> {

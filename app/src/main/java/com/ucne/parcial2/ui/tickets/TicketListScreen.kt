@@ -6,6 +6,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.TaskAlt
+import androidx.compose.material.icons.filled.Update
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,8 +26,10 @@ import com.ucne.parcial2.data.remote.dto.TicketsDto
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TicketsListScreen( onNewTicket: () -> Unit,
-                      viewModel: TicketsViewModel = hiltViewModel(),onTicketClick: (Int) -> Unit) {
+fun TicketsListScreen(
+    onNewTicket: () -> Unit,
+    viewModel: TicketsViewModel = hiltViewModel(), onTicketClick: (Int) -> Unit
+) {
     Scaffold(
         modifier = Modifier.fillMaxWidth(),
         topBar = {
@@ -32,20 +37,22 @@ fun TicketsListScreen( onNewTicket: () -> Unit,
                 title = { Text("Tickets", style = MaterialTheme.typography.headlineLarge) }
             )
         },
-       /* floatingActionButton = {
-            FloatingActionButton(
-                onClick = { onNewTicket() }
-            ) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = "Save")
-            }
-        },
-        floatingActionButtonPosition = FabPosition.End*/
+        /* floatingActionButton = {
+             FloatingActionButton(
+                 onClick = { onNewTicket() }
+             ) {
+                 Icon(imageVector = Icons.Filled.Add, contentDescription = "Save")
+             }
+         },
+         floatingActionButtonPosition = FabPosition.End*/
     ) {
         val uiState by viewModel.uiState.collectAsState()
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(it)) {
-            TicketListBody(uiState.tickets){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        ) {
+            TicketListBody(uiState.tickets) {
                 onTicketClick(it)
             }
         }
@@ -57,7 +64,7 @@ fun TicketListBody(ticketList: List<TicketsDto>, onTicketClick: (Int) -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
         LazyColumn {
             items(ticketList) { ticket ->
-                TicketRow(ticket){
+                TicketRow(ticket) {
                     onTicketClick(it)
                 }
             }
@@ -75,10 +82,10 @@ fun TicketRow(ticket: TicketsDto, onTicketClick: (Int) -> Unit) {
             .padding(8.dp)
     ) {
         //todo : Implementar swipe to delete
-       // val drawerState = rememberDrawerState(DrawerValue.Closed )
+        // val drawerState = rememberDrawerState(DrawerValue.Closed )
         Column(
             modifier = Modifier
-                .clickable(onClick = {onTicketClick(ticket.ticketId)})
+                .clickable(onClick = { onTicketClick(ticket.ticketId) })
                 .fillMaxWidth()
         ) {
             Row() {
@@ -90,20 +97,36 @@ fun TicketRow(ticket: TicketsDto, onTicketClick: (Int) -> Unit) {
                     modifier = Modifier.weight(3f)
                 )
                 Text(
-                    text = ticket.fecha.substring(0,10),
+                    text = ticket.fecha.substring(0, 10),
                     style = MaterialTheme.typography.titleSmall,
                     fontStyle = FontStyle.Italic,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.End,
-                    modifier = Modifier.weight(2f)
+                    modifier = Modifier.weight(3f)
                 )
             }
-            Text(
-                text = ticket.asunto,
-                style = MaterialTheme.typography.titleLarge,
-                //modifier = Modifier.weight(3f)
-            )
+            Row(modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(
+                    text = ticket.asunto,
+                    style = MaterialTheme.typography.titleLarge,
+                )
+                Icon(
+                    imageVector = when (ticket.estatus) {
+                        "Solicitado" -> {
+                            Icons.Default.Star
+                        }
+                        "En espera" -> {
+                            Icons.Default.Update
+                        }
+                        else -> {
+                            Icons.Default.TaskAlt
+                        }
+                    }, contentDescription = ticket.estatus
 
+                )
+
+            }
         }
         Divider(Modifier.fillMaxWidth())
     }

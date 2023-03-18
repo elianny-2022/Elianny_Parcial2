@@ -16,7 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun TicketScreen(ticketId:Int, viewModel: TicketsViewModel = hiltViewModel(), onSaveClick: () -> Unit) {
     remember {
-        viewModel.ticketId = ticketId
+        viewModel.setTicket(ticketId)
         0
     }
     Column(Modifier.fillMaxWidth()) {

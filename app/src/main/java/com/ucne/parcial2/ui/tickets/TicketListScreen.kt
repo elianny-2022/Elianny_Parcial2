@@ -38,7 +38,9 @@ fun TicketsListScreen(
                 title = {
                     Text(
                         text = "Lista de Tickets",
-                        textAlign = TextAlign.End,
+                        textAlign = TextAlign.Center,
+                        fontStyle = FontStyle.Italic,
+                        fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.headlineLarge
                     )
                 }

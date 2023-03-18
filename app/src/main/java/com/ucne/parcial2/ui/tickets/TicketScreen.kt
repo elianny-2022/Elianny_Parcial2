@@ -5,8 +5,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -74,6 +75,15 @@ private fun TicketBody(
                     .padding(8.dp),
                 value = viewModel.empresa,
                 label = { Text(text = "Empresa") },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Apartment,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(33.dp)
+                            .padding(4.dp)
+                    )
+                },
                 onValueChange = { viewModel.empresa = it })
 
             OutlinedTextField(
@@ -81,6 +91,15 @@ private fun TicketBody(
                     .fillMaxWidth()
                     .padding(8.dp),
                 value = viewModel.asunto,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Report,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(33.dp)
+                            .padding(4.dp)
+                    )
+                },
                 label = { Text(text = "Asunto") },
                 onValueChange = { viewModel.asunto = it })
 
@@ -93,6 +112,15 @@ private fun TicketBody(
                 value = viewModel.estatus,
                 enabled = false, readOnly = true,
                 label = { Text(text = "Estatus") },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.QueryStats,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(33.dp)
+                            .padding(4.dp)
+                    )
+                },
                 onValueChange = { viewModel.estatus = it })
 
             DropdownMenu(
@@ -125,6 +153,15 @@ private fun TicketBody(
                     .padding(8.dp),
                 value = viewModel.especificaciones,
                 label = { Text(text = "Especificaciones") },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.FolderSpecial,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(33.dp)
+                            .padding(4.dp)
+                    )
+                },
                 onValueChange = { viewModel.especificaciones = it })
 
         }

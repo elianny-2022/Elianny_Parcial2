@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -34,7 +35,13 @@ fun TicketsListScreen(
         modifier = Modifier.fillMaxWidth(),
         topBar = {
             TopAppBar(
-                title = { Text("Tickets", style = MaterialTheme.typography.headlineLarge) }
+                title = {
+                    Text(
+                        text = "Lista de Tickets",
+                        textAlign = TextAlign.End,
+                        style = MaterialTheme.typography.headlineLarge
+                    )
+                }
             )
         },
         /* floatingActionButton = {
@@ -105,8 +112,10 @@ fun TicketRow(ticket: TicketsDto, onTicketClick: (Int) -> Unit) {
                     modifier = Modifier.weight(3f)
                 )
             }
-            Row(modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Text(
                     text = ticket.asunto,
                     style = MaterialTheme.typography.titleLarge,
@@ -122,10 +131,19 @@ fun TicketRow(ticket: TicketsDto, onTicketClick: (Int) -> Unit) {
                         else -> {
                             Icons.Default.TaskAlt
                         }
-                    }, contentDescription = ticket.estatus
-
+                    }, contentDescription = ticket.estatus,
+                    tint = when (ticket.estatus) {
+                        "Solicitado" -> {
+                            Color(0xFFFFAF33)
+                        }
+                        "En espera" -> {
+                            Color.Gray
+                        }
+                        else -> {
+                            Color.Green
+                        }
+                    }
                 )
-
             }
         }
         Divider(Modifier.fillMaxWidth())

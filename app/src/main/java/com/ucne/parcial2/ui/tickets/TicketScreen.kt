@@ -54,6 +54,7 @@ private fun TicketBody(
             onValueChange = { viewModel.asunto = it })
 
         OutlinedTextField(
+
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { expanded = true }
